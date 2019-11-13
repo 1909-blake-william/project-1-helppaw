@@ -18,7 +18,7 @@ public class AuthServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println(req.getRequestURL());
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
 				"Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
@@ -35,7 +35,9 @@ public class AuthServlet extends HttpServlet {
 		if ("/projectOne/auth/login".equals(req.getRequestURI())) {
 			ObjectMapper om = new ObjectMapper();
 			User credentials = (User) om.readValue(req.getReader(), User.class);
+			
 			User loggedInUser = userDao.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
+			System.out.println(loggedInUser);
 			if (loggedInUser == null) {
 				resp.setStatus(401); // Unauthorized status code
 				return;

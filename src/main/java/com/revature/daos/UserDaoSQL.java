@@ -84,20 +84,17 @@ public class UserDaoSQL implements UserDao {
 			String sql = "SELECT * FROM ers_users WHERE username = '" + username + "' AND password = '" + password
 					+ "'";
 			ResultSet rs = statement.executeQuery(sql);
-
 			if (rs.next()) {
-			//	int id = rs.getInt("user_id");
-			//	String rsUsername = rs.getString("username");
-			//String rsPassword = rs.getString("password");
 
 				return extractUser(rs);
 			} else {
 				return null;
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException e) { 
+			System.out.println("i got caught");
 			// TODO Auto-generated catch block
-//			e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		}
 	}
