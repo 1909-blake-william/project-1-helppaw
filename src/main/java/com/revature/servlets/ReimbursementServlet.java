@@ -24,7 +24,7 @@ public class ReimbursementServlet extends HttpServlet {
 		super.service(req, resp);
 		System.out.println("To context param: " + req.getServletContext().getInitParameter("To"));
 
-		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+		resp.addHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 		resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, HEAD");
 		resp.addHeader("Access-Control-Allow-Headers",
 				"Origin, Methods, Credentials, X-Requested-With, Content-Type, Accept");
@@ -61,8 +61,7 @@ public class ReimbursementServlet extends HttpServlet {
 		
 		System.out.println(r);
 		
-		int id = reimbDao.save(r);
-		r.setReimbId(id);
+		reimbDao.save(r);
 		
 		String json = om.writeValueAsString(r);
 		

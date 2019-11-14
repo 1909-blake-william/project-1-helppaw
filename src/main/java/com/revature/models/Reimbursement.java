@@ -10,46 +10,78 @@ public class Reimbursement implements Serializable {
 	private Timestamp reimbSubmitted;
 	private Timestamp reimbResolved;
 	private String reimbDescription;
-	private Blob reimbReceipt;
 	private int reimbAuthor;
 	private int reimbResolver;
 	private int reimbStatusId;
 	private int reimbTypeId;
-	
+
 	public Reimbursement() {
-		super();
-		// TODO Auto-generated constructor stub
+
 	}
 
-	public Reimbursement(int reimbId, double reimbAmount, Timestamp reimbSubmitted, Timestamp reimbResolved,
-			String reimbDescription, int reimbAuthor, int reimbResolver, int reimbStatusId,
-			int reimbTypeId) {
-		super();
-		this.reimbId = reimbId;
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbResolved = reimbResolved;
-		this.reimbDescription = reimbDescription;
-		this.reimbAuthor = reimbAuthor;
-		this.reimbResolver = reimbResolver;
-		this.reimbStatusId = reimbStatusId;
-		this.reimbTypeId = reimbTypeId;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(reimbAmount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + reimbAuthor;
+		result = prime * result + ((reimbDescription == null) ? 0 : reimbDescription.hashCode());
+		result = prime * result + reimbId;
+		result = prime * result + ((reimbResolved == null) ? 0 : reimbResolved.hashCode());
+		result = prime * result + reimbResolver;
+		result = prime * result + reimbStatusId;
+		result = prime * result + ((reimbSubmitted == null) ? 0 : reimbSubmitted.hashCode());
+		result = prime * result + reimbTypeId;
+		return result;
 	}
 
-	public Reimbursement(int reimbId, double reimbAmount, Timestamp reimbSubmitted, Timestamp reimbResolved,
-			String reimbDescription, Blob reimbReceipt, int reimbAuthor, int reimbResolver, int reimbStatusId,
-			int reimbTypeId) {
-		super();
-		this.reimbId = reimbId;
-		this.reimbAmount = reimbAmount;
-		this.reimbSubmitted = reimbSubmitted;
-		this.reimbResolved = reimbResolved;
-		this.reimbDescription = reimbDescription;
-		this.reimbReceipt = reimbReceipt;
-		this.reimbAuthor = reimbAuthor;
-		this.reimbResolver = reimbResolver;
-		this.reimbStatusId = reimbStatusId;
-		this.reimbTypeId = reimbTypeId;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reimbursement other = (Reimbursement) obj;
+		if (Double.doubleToLongBits(reimbAmount) != Double.doubleToLongBits(other.reimbAmount))
+			return false;
+		if (reimbAuthor != other.reimbAuthor)
+			return false;
+		if (reimbDescription == null) {
+			if (other.reimbDescription != null)
+				return false;
+		} else if (!reimbDescription.equals(other.reimbDescription))
+			return false;
+		if (reimbId != other.reimbId)
+			return false;
+		if (reimbResolved == null) {
+			if (other.reimbResolved != null)
+				return false;
+		} else if (!reimbResolved.equals(other.reimbResolved))
+			return false;
+		if (reimbResolver != other.reimbResolver)
+			return false;
+		if (reimbStatusId != other.reimbStatusId)
+			return false;
+		if (reimbSubmitted == null) {
+			if (other.reimbSubmitted != null)
+				return false;
+		} else if (!reimbSubmitted.equals(other.reimbSubmitted))
+			return false;
+		if (reimbTypeId != other.reimbTypeId)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
+				+ reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription=" + reimbDescription
+				+ ", reimbAuthor=" + reimbAuthor + ", reimbResolver=" + reimbResolver + ", reimbStatusId="
+				+ reimbStatusId + ", reimbTypeId=" + reimbTypeId + "]";
 	}
 
 	public int getReimbId() {
@@ -92,14 +124,6 @@ public class Reimbursement implements Serializable {
 		this.reimbDescription = reimbDescription;
 	}
 
-	public Blob getReimbReceipt() {
-		return reimbReceipt;
-	}
-
-	public void setReimbReceipt(Blob reimbReceipt) {
-		this.reimbReceipt = reimbReceipt;
-	}
-
 	public int getReimbAuthor() {
 		return reimbAuthor;
 	}
@@ -132,11 +156,17 @@ public class Reimbursement implements Serializable {
 		this.reimbTypeId = reimbTypeId;
 	}
 
-	@Override
-	public String toString() {
-		return "Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
-				+ reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription=" + reimbDescription
-				+ ", reimbReceipt=" + reimbReceipt + ", reimbAuthor=" + reimbAuthor + ", reimbResolver=" + reimbResolver
-				+ ", reimbStatusId=" + reimbStatusId + ", reimbTypeId=" + reimbTypeId + "]";
+	public Reimbursement(int reimbId, double reimbAmount, Timestamp reimbSubmitted, Timestamp reimbResolved,
+			String reimbDescription, int reimbAuthor, int reimbResolver, int reimbStatusId, int reimbTypeId) {
+		super();
+		this.reimbId = reimbId;
+		this.reimbAmount = reimbAmount;
+		this.reimbSubmitted = reimbSubmitted;
+		this.reimbResolved = reimbResolved;
+		this.reimbDescription = reimbDescription;
+		this.reimbAuthor = reimbAuthor;
+		this.reimbResolver = reimbResolver;
+		this.reimbStatusId = reimbStatusId;
+		this.reimbTypeId = reimbTypeId;
 	}
 }

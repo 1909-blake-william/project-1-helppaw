@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <p> Type 1 for Lodging;<br>
+        Type 2 for Travel;<br>
+        Type 3 for Food;<br>
+        Type 4 for Other<br>
+    </p>
+    <form class="form-new-reimbursement" onsubmit="saveReimbursement(event)">
+        <label for="inputTypeOfReimbursement" class="sr-only">Type of Reimbursement:</label>
+        <input type="number" id="reimbTypeId" class="form-control" placeholder="Type Of Reimbursement" required>
+        <br>
+        <p> Insert Amount of money you want for reimbursement in this format "00.00"</p>
+        <label for="inputAmountOfReimbursementRequested" class="sr-only">Amount of Reimbursement Requested:</label>
+        <input type="number" id="reimbAmount" class="form-control" placeholder="Amount of Reimbursement Requested" required>
+        <br>
+        <p> Insert a description concerning this reimbursement; especially if you are asking for a lot of money.</p>
+        <label for="inputDescription:" class="sr-only">Description:</label>
+        <input type="text" id="reimbDescription" class="form-control" placeholder="Description"><br>
+        <input type="submit" value="Submit">
+
+    </form>
+
+    <p>Click the "Submit" button and the form-data will be sent to a page on the server called "/action_page.php".</p>
+
+</body>
+
+<script src="./reimbursements.js"></script>
+
+</html>

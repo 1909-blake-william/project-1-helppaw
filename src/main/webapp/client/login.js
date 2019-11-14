@@ -1,4 +1,4 @@
-console.log("please do something");
+
 
 
 function login(event) {
@@ -12,8 +12,7 @@ function login(event) {
 
     };
 
-    console.log(username);
-    console.log(password);
+    
 
     fetch('http://localhost:8080/projectOne/auth/login', {
         method: 'POST',

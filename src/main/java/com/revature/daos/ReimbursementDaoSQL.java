@@ -1,6 +1,5 @@
 package com.revature.daos;
 
-import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,21 +16,19 @@ import com.revature.util.ConnectionUtil;
 
 public class ReimbursementDaoSQL implements ReimbursementDao {
 
-
 	Reimbursement extractReimbursement(ResultSet rs) throws SQLException {
 		int reimbId = rs.getInt("reimb_id");
 		double reimbAmount = rs.getDouble("reimb_amount");
 		Timestamp reimbSubmitted = rs.getTimestamp("reimb_submitted");
 		Timestamp reimbResolved = rs.getTimestamp("reimb_resolved");
 		String reimbDescription = rs.getString("reimb_description");
-		Blob reimbReceipt = rs.getBlob("reimb_receipt");
 		int reimbAuthor = rs.getInt("reimb_author");
 		int reimbResolver = rs.getInt("reimb_resolver");
 		int reimbStatusId = rs.getInt("reimb_status_id");
 		int reimbTypeId = rs.getInt("reimb_type_id");
-		return new Reimbursement(reimbId, reimbAmount, reimbSubmitted, reimbResolved, reimbDescription, reimbReceipt,
-				reimbAuthor, reimbResolver, reimbStatusId, reimbTypeId); // new PokemonType(typeId, typeName, null,
-																			// null),
+		return new Reimbursement(reimbId, reimbAmount, reimbSubmitted, reimbResolved, reimbDescription, reimbAuthor,
+				reimbResolver, reimbStatusId, reimbTypeId); // new PokemonType(typeId, typeName, null,
+															// null),
 		// new User(trainerId, trainerName, null, trainerRole));
 	}
 
@@ -39,20 +36,16 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 	public int save(Reimbursement r) {
 		try (Connection c = ConnectionUtil.getConnection()) {
 
-			String sql = "INSERT INTO ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_resolved, reimb_description, reimb_receipt, reimb_author, reimb_resolver, reimb_status_id, reimb_type_id) "
-					+ " VALUES (ers_reimbursement_id_seq.nextval , ?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO ers_reimbursement (reimb_id, reimb_amount, reimb_submitted, reimb_description, reimb_author, reimb_status_id, reimb_type_id) "
+					+ " VALUES (ers_reimbursement_id_seq.nextval , ?,current_timestamp,?,?,?,?)";
 
 			CallableStatement cs = c.prepareCall(sql);
-			cs.setInt(1, r.getReimbId());
-			cs.setDouble(2, r.getReimbAmount());
-			cs.setTimestamp(3, r.getReimbSubmitted());
-			cs.setTimestamp(4, r.getReimbResolved());
-			cs.setString(5, r.getReimbDescription());
-			cs.setBlob(6, r.getReimbReceipt());
-			cs.setInt(7, r.getReimbAuthor());
-			cs.setInt(8, r.getReimbResolver());
-			cs.setInt(9, r.getReimbStatusId());
-			cs.setInt(10, r.getReimbTypeId());
+
+			cs.setDouble(1, r.getReimbAmount());
+			cs.setString(2, r.getReimbDescription());
+			cs.setInt(3, r.getReimbAuthor());
+			cs.setInt(4, r.getReimbStatusId());
+			cs.setInt(5, r.getReimbTypeId());
 
 			return cs.executeUpdate();
 
