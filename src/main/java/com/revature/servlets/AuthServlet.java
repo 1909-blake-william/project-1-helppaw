@@ -52,6 +52,7 @@ public class AuthServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println(req.getRequestURI());
 		if ("/projectOne/auth/session-user".equals(req.getRequestURI())) {
 			ObjectMapper om = new ObjectMapper();
 			String json = om.writeValueAsString(req.getSession().getAttribute("user"));

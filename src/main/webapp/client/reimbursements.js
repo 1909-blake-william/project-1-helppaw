@@ -1,24 +1,11 @@
-function saveReimbursement(event) {
-    event.preventDefault();
-    let currentUser;
-    fetch('localhost:8080/projectOne/auth/session-user', {
-      
-        
-        credentials: 'include'
-    })
-
-    .then(resp => resp.json())
-        .then(data => {
-            currentUser = data;
-        });
-
+function saveReimbursement() {
 
     const reimbInfo = {
         reimbTypeId,
         reimbAmount,
         reimbDescription,
-        reimbStatusId,
-        reimbAuthor
+        reimbStatusId: -1,
+        reimbAuthor: 1
 
     };
     reimbInfo.reimbTypeId = document.getElementById('reimbTypeId').value;
@@ -27,14 +14,22 @@ function saveReimbursement(event) {
 
     reimbInfo.reimbStatusId = 1;
     reimbInfo.reimbAuthor = currentUser.reimbAuthor;
-    fetch('localhost:8080/projectOne/reimbursement', {
+    console.log(reimbInfo.reimbAuthor);
+
+
+
+
+    fetch('http://localhost:8080/projectOne/reimbursement', {
+
+        credentials: 'include',
+        body: JSON.stringify(reimbInfo),
+
+
         method: 'POST',
         headers: {
             'content-type': 'application/json'
 
         },
-        credentials: 'include',
-        body: JSON.stringify(reimbInfo)
 
     })
         .then(resp => {
@@ -53,3 +48,17 @@ function saveReimbursement(event) {
 
 
 }
+function getCurrentUser() {
+    fetch('http://localhost:8080/projectOne/auth/session-user', {
+
+        credentials: 'include'
+    })
+
+        .then(resp => resp.json())
+        .then(data => {
+            currentUser = data;
+            console.log(currentUser);
+        })
+
+}
+getCurrentUser();

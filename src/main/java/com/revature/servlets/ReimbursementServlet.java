@@ -37,7 +37,7 @@ public class ReimbursementServlet extends HttpServlet {
 		
 		List<Reimbursement> reimbursement;
 		
-		String authorName = req.getParameter("authorName");
+		String authorName = req.getParameter("username");
 	
 		if (authorName != null) { //find by Author name
 			reimbursement = reimbDao.findByAuthorName(authorName);

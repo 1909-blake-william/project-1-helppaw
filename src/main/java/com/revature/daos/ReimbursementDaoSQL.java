@@ -27,9 +27,9 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		int reimbStatusId = rs.getInt("reimb_status_id");
 		int reimbTypeId = rs.getInt("reimb_type_id");
 		return new Reimbursement(reimbId, reimbAmount, reimbSubmitted, reimbResolved, reimbDescription, reimbAuthor,
-				reimbResolver, reimbStatusId, reimbTypeId); // new PokemonType(typeId, typeName, null,
-															// null),
-		// new User(trainerId, trainerName, null, trainerRole));
+				reimbResolver, reimbStatusId, reimbTypeId); 
+															
+		
 	}
 
 	@Override
