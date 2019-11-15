@@ -1,19 +1,21 @@
-function saveReimbursement() {
+let currentUser;
 
-    const reimbInfo = {
+function saveReimbursement(event) {
+    event.preventDefault();
+    let reimbInfo = {
         reimbTypeId,
         reimbAmount,
         reimbDescription,
         reimbStatusId: -1,
-        reimbAuthor: 1
+        reimbAuthor: -1
 
     };
     reimbInfo.reimbTypeId = document.getElementById('reimbTypeId').value;
     reimbInfo.reimbAmount = document.getElementById('reimbAmount').value;
     reimbInfo.reimbDescription = document.getElementById('reimbDescription').value;
-
+    console.log(currentUser.ersUserId);
     reimbInfo.reimbStatusId = 1;
-    reimbInfo.reimbAuthor = currentUser.reimbAuthor;
+    reimbInfo.reimbAuthor = currentUser.ersUserId;
     console.log(reimbInfo.reimbAuthor);
 
 
@@ -36,7 +38,7 @@ function saveReimbursement() {
             if (resp.status === 201) {
 
                 console.log('successfully inserted pending reimbursement')
-                window.location = './home.html';
+                //window.location = './home.html';
             } else {
                 document.getElementById('error-message').innerText = 'Incorrect input values';
 
@@ -62,3 +64,4 @@ function getCurrentUser() {
 
 }
 getCurrentUser();
+

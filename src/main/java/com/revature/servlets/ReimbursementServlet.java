@@ -58,7 +58,7 @@ public class ReimbursementServlet extends HttpServlet {
 		// read the reimbursement from the request body
 		ObjectMapper om = new ObjectMapper();
 		Reimbursement r = (Reimbursement) om.readValue(req.getReader(), Reimbursement.class);
-		
+		System.out.println("we RE HERES");
 		System.out.println(r);
 		
 		reimbDao.save(r);

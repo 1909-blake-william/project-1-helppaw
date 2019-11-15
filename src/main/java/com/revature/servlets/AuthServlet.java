@@ -35,6 +35,7 @@ public class AuthServlet extends HttpServlet {
 		if ("/projectOne/auth/login".equals(req.getRequestURI())) {
 			ObjectMapper om = new ObjectMapper();
 			User credentials = (User) om.readValue(req.getReader(), User.class);
+			System.out.println(credentials);
 			
 			User loggedInUser = userDao.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
 			System.out.println(loggedInUser);
