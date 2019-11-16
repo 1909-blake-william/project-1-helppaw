@@ -15,13 +15,13 @@ public class TestDriver {
 		
 		//User loggedInUser = userDao.findByUsernameAndPassword("admin", "admin");
 		
-		System.out.println(reimbDao.findAll());
+		//System.out.println(reimbDao.findAll());
 		
-		System.out.println("The seperator");
+	//	System.out.println("The seperator");
 
 		
-		System.out.println(reimbDao.findByAuthorId(3));
-		
+		//System.out.println(reimbDao.findByAuthorId(3));
+		System.out.println();
 		
 		/*System.out.println("just saying");
 		//System.out.println(userDao.findAll());

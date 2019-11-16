@@ -37,10 +37,11 @@ public class ReimbursementServlet extends HttpServlet {
 		
 		List<Reimbursement> reimbursement;
 		
-		String authorName = req.getParameter("username");
+		String userIdStr = req.getParameter("userId");
 	
-		if (authorName != null) { //find by Author name
-			reimbursement = reimbDao.findByAuthorName(authorName);
+		if (userIdStr != null) { //find by Author name
+			int userId = Integer.parseInt(userIdStr);
+			reimbursement = reimbDao.findByAuthorId(userId);
 		} else { // find all
 			reimbursement = reimbDao.findAll();
 		}
