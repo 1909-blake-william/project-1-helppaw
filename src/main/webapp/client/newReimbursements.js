@@ -38,7 +38,7 @@ function saveReimbursement(event) {
             if (resp.status === 201) {
 
                 console.log('successfully inserted pending reimbursement')
-                //window.location = './home.html';
+                window.location = './home.html';
             } else {
                 document.getElementById('error-message').innerText = 'Incorrect input values';
 

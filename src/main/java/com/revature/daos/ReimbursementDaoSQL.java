@@ -16,6 +16,8 @@ import com.revature.util.ConnectionUtil;
 
 public class ReimbursementDaoSQL implements ReimbursementDao {
 
+	private String selectStatement = "SELECT * FROM ers_reimbursement";
+
 	Reimbursement extractReimbursement(ResultSet rs) throws SQLException {
 		int reimbId = rs.getInt("reimb_id");
 		double reimbAmount = rs.getDouble("reimb_amount");
@@ -27,11 +29,11 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		int reimbStatusId = rs.getInt("reimb_status_id");
 		int reimbTypeId = rs.getInt("reimb_type_id");
 		return new Reimbursement(reimbId, reimbAmount, reimbSubmitted, reimbResolved, reimbDescription, reimbAuthor,
-				reimbResolver, reimbStatusId, reimbTypeId); 
-															
-		
-	}
+				reimbResolver, reimbStatusId, reimbTypeId);
 
+
+	
+	}
 	@Override
 	public int save(Reimbursement r) {
 		try (Connection c = ConnectionUtil.getConnection()) {
@@ -61,15 +63,7 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		try (Connection c = ConnectionUtil.getConnection()) {
 			System.out.println("test");
 
-			/*
-			 * String sql = "SELECT * FROM pokemon p " +
-			 * "LEFT JOIN pokemon_types t ON (p.pokemon_type_id = t.pokemon_types_id) " +
-			 * "LEFT JOIN pokemon_users u ON (p.trainer = u.user_id)";
-			 */
-
-			String sql = "SELECT * FROM ers_reimbursement r "
-					+ "LEFT JOIN ers_reimbursement_type t ON (r.reimbursement_type_id = t.reimbursement_type_id) "
-					+ "LEFT JOIN ers_users u ON (r.reimb_author = u.ers_user_id)";
+			String sql = selectStatement + " ORDER BY reimb_id";
 
 			PreparedStatement ps = c.prepareStatement(sql);
 
@@ -90,8 +84,29 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 
 	@Override
 	public List<Reimbursement> findByAuthorId(int reimbAuthor) {
-		// TODO Auto-generated method stub
-		return null;
+		try (Connection c = ConnectionUtil.getConnection()) {
+			System.out.println("test");
+
+			String sql = selectStatement + " WHERE reimb_author = ? ORDER BY reimb_id";
+
+			PreparedStatement ps = c.prepareStatement(sql);
+
+			ps.setInt(1, reimbAuthor);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			List<Reimbursement> reimbursements = new ArrayList<>();
+			while (rs.next()) {
+				reimbursements.add(extractReimbursement(rs));
+			}
+
+			return reimbursements;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
