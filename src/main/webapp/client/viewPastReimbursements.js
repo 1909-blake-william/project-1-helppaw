@@ -1,4 +1,5 @@
 let currentUser;
+let reimbursementsArray;
 
 
 
@@ -47,20 +48,51 @@ function addReimbursementToTableSafe(reimbursement) {
     row.appendChild(resolverData);
 
 
-    
+
     let manageButton = document.createElement('td');
-    if (currentUser.userRoleId === 1) {
-    manageButton.innerHTML = `<button onclick="update(${reimbursement.reimbId})">Approve</button> <button onclick="update(${reimbursement.reimbId})">Deny</button>`
+    if (currentUser.userRoleId === 1 && reimbursement.reimbStatusId === 1) {
+        manageButton.innerHTML = `<button onclick="update(${reimbursement.reimbId}, 2)">Approve</button> <button onclick="update(${reimbursement.reimbId}, 3)">Deny</button>`
     }
     row.appendChild(manageButton);
-    
+
+
     // append the row into the table ; make to reimbursement-table-body if this doesnt work
     document.getElementById('past-reimbursement-body').appendChild(row);
 }
 
 
-function update(n){
-    alert(n);
+function update(reimbId, statusInput) {
+
+
+    let details = {
+        reimbResolver: -1,
+        reimbStatusId: -1,
+        reimbId: -1
+    };
+
+    details.reimbResolver = currentUser.ersUserId;
+    details.reimbStatusId = statusInput;
+    details.reimbId = reimbId;
+    fetch('http://localhost:8080/projectOne/reimbursement', {
+        method: 'PUT',
+        headers: {
+            'content-type': 'application/json'
+        },
+        details: 'include',
+        body: JSON.stringify(details)
+
+
+    })
+        .then(resp => {
+            if (resp.status === 201) {
+                document.getElementById('past-reimbursement-body').innerText = "";
+                refreshTable();
+
+
+            } else {
+                document.getElementById('error-message').innterText = "Failed to update";
+            }
+        });
 }
 
 
@@ -71,12 +103,13 @@ function update(n){
 
 function refreshTable() {
     let fetchUrl = 'http://localhost:8080/projectOne/reimbursement';
-    if (currentUser.userRoleId !== 1) { 
+    if (currentUser.userRoleId !== 1) {
         fetchUrl += `?userId=${currentUser.ersUserId}`
     }
     fetch(fetchUrl)
         .then(res => res.json())
         .then(data => {
+            reimbursementsArray = data;
             data.forEach(addReimbursementToTableSafe)
         })
         .catch(console.log);

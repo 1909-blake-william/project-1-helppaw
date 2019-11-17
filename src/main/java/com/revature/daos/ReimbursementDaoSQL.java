@@ -31,9 +31,8 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		return new Reimbursement(reimbId, reimbAmount, reimbSubmitted, reimbResolved, reimbDescription, reimbAuthor,
 				reimbResolver, reimbStatusId, reimbTypeId);
 
-
-	
 	}
+
 	@Override
 	public int save(Reimbursement r) {
 		try (Connection c = ConnectionUtil.getConnection()) {
@@ -92,9 +91,9 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			PreparedStatement ps = c.prepareStatement(sql);
 
 			ps.setInt(1, reimbAuthor);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			List<Reimbursement> reimbursements = new ArrayList<>();
 			while (rs.next()) {
 				reimbursements.add(extractReimbursement(rs));
@@ -189,6 +188,32 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 		}
 	}
 
+	@Override
+	public int update(Reimbursement r) {
+		try (Connection c = ConnectionUtil.getConnection()) {
+
+			/*
+			 * UPDATE ers_reimbursement SET reimb_resolved = current_timestamp,
+			 * reimb_status_id = 2, reimb_resolver = 3 WHERE reimb_id = 28;
+			 */
+			String sql = " UPDATE ers_reimbursement"
+					+ " SET reimb_resolved = current_timestamp, reimb_status_id = ?, reimb_resolver = ?"
+					+ " WHERE reimb_id = ?";
+
+			CallableStatement cs = c.prepareCall(sql);
+
+			cs.setInt(1, r.getReimbStatusId());
+			cs.setInt(2, r.getReimbResolver());
+			cs.setInt(3, r.getReimbId());
+			System.out.println("im working...");
+			return cs.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
 	/*
 	 * 
 	 * @Override public Pokemon findById(int id) {

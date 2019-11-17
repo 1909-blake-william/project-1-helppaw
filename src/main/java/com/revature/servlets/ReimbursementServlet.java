@@ -31,27 +31,27 @@ public class ReimbursementServlet extends HttpServlet {
 		resp.addHeader("Access-Control-Allow-Credentials", "true");
 		resp.setContentType("application/json");
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		List<Reimbursement> reimbursement;
-		
+
 		String userIdStr = req.getParameter("userId");
-	
-		if (userIdStr != null) { //find by Author name
+
+		if (userIdStr != null) { // find by Author name
 			int userId = Integer.parseInt(userIdStr);
 			reimbursement = reimbDao.findByAuthorId(userId);
 		} else { // find all
 			reimbursement = reimbDao.findAll();
 		}
-			
-	ObjectMapper om = new ObjectMapper();
-	String json = om.writeValueAsString(reimbursement);
-	
-	resp.addHeader("content-type", "application/json");
-	resp.getWriter().write(json);
-	
+
+		ObjectMapper om = new ObjectMapper();
+		String json = om.writeValueAsString(reimbursement);
+
+		resp.addHeader("content-type", "application/json");
+		resp.getWriter().write(json);
+
 	}
 
 	@Override
@@ -61,44 +61,63 @@ public class ReimbursementServlet extends HttpServlet {
 		Reimbursement r = (Reimbursement) om.readValue(req.getReader(), Reimbursement.class);
 		System.out.println("we RE HERES");
 		System.out.println(r);
-		
+
 		reimbDao.save(r);
-		
+
 		String json = om.writeValueAsString(r);
-		
+
 		resp.getWriter().write(json);
 		resp.setStatus(201); // created status code
-	
-	
+
 	}
 
-	
-}
-	
-/*
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// read the pokemon from the request body
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		ObjectMapper om = new ObjectMapper();
-		Pokemon p = (Pokemon) om.readValue(req.getReader(), Pokemon.class);
+		Reimbursement r = (Reimbursement) om.readValue(req.getReader(), Reimbursement.class);
 
-		System.out.println(p);
+		reimbDao.update(r);
 
-		int id = pokeDao.save(p);
-		p.setId(id);
-
-		String json = om.writeValueAsString(p);
-
-		resp.getWriter().write(json);
-		resp.setStatus(201); // created status code
-
+		resp.setStatus(201);
 	}
-	
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String idString = req.getParameter("id");
-		int id = Integer.parseInt(idString);
-		pokeDao.release(id);
-	}
+
 }
-*/
+
+/*
+ * @Override protected void doPut(HttpServletRequest req, HttpServletResponse
+ * resp) throws ServletException, IOException { // TODO Auto-generated method
+ * stub ObjectMapper om = new ObjectMapper(); Reimbursement r = (Reimbursement)
+ * om.readValue(req.getReader(), Reimbursement.class); System.out.println(r);
+ * 
+ * reimbDao.save(r);
+ * 
+ * String json = om.writeValueAsString(r);
+ * 
+ * resp.getWriter().write(json); resp.setStatus(201); }
+ * 
+ * 
+ * }
+ * 
+ * /*
+ * 
+ * @Override protected void doPost(HttpServletRequest req, HttpServletResponse
+ * resp) throws ServletException, IOException { // read the pokemon from the
+ * request body ObjectMapper om = new ObjectMapper(); Pokemon p = (Pokemon)
+ * om.readValue(req.getReader(), Pokemon.class);
+ * 
+ * System.out.println(p);
+ * 
+ * int id = pokeDao.save(p); p.setId(id);
+ * 
+ * String json = om.writeValueAsString(p);
+ * 
+ * resp.getWriter().write(json); resp.setStatus(201); // created status code
+ * 
+ * }
+ * 
+ * @Override protected void doDelete(HttpServletRequest req, HttpServletResponse
+ * resp) throws ServletException, IOException { String idString =
+ * req.getParameter("id"); int id = Integer.parseInt(idString);
+ * pokeDao.release(id); } }
+ */

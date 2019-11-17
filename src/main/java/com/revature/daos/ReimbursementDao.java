@@ -16,6 +16,8 @@ public interface ReimbursementDao {
 	 * @return the generated id for the reimbursement
 	 */
 	int save(Reimbursement r);
+	
+	int update(Reimbursement r);
 
 	List<Reimbursement> findAll();
 
