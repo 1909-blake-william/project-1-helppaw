@@ -222,7 +222,7 @@ function filterTable(i) {
     }
 */
 
-function logout(event) {
+function logout() {
     fetch('http://localhost:8080/projectOne/auth/logout', {
         method: 'DELETE',
 
@@ -233,8 +233,8 @@ function logout(event) {
         credentials: 'include',
     })
         .then(resp => {
-            getCurrentUser();
-        })
+            console.log('logged out properly');
+        });
 }
 
 

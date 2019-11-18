@@ -1,4 +1,6 @@
 let currentUser;
+currentUser();
+
 
 function saveReimbursement(event) {
     event.preventDefault();
@@ -63,5 +65,5 @@ function getCurrentUser() {
         })
 
 }
-getCurrentUser();
+
 
