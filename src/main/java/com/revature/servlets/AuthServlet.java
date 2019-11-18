@@ -60,4 +60,33 @@ public class AuthServlet extends HttpServlet {
 			resp.getWriter().write(json);
 		}
 	}
+
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		if ("/projectOne/auth/logout".equals(req.getRequestURI())) {
+			ObjectMapper om = new ObjectMapper();
+			User credentials = (User) om.readValue(req.getReader(), User.class);
+			System.out.println(credentials);
+			
+			User loggedInUser = userDao.findByUsernameAndPassword(credentials.getUsername(), credentials.getPassword());
+			loggedInUser.equals(null);
+			req.getSession().setAttribute(null, loggedInUser);
+			resp.getWriter().write((om.writeValueAsString(loggedInUser)));
+			
+		}
+	}
 }
+
+/*
+ @Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String idString = req.getParameter("id");
+		int id = Integer.parseInt(idString);
+		pokeDao.release(id);
+	}
+}
+ 
+  
+ 
+ */
+
+

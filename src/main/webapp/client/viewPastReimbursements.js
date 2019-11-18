@@ -4,6 +4,7 @@ let reimbursementsArray;
 
 
 
+
 function addReimbursementToTableSafe(reimbursement) {
 
     // create the row element
@@ -86,7 +87,18 @@ function update(reimbId, statusInput) {
         .then(resp => {
             if (resp.status === 201) {
                 document.getElementById('past-reimbursement-body').innerText = "";
-                refreshTable();
+                reimbursementsArray.forEach(reimbursement => {
+                    if (reimbursement.reimbId === reimbId) {
+                        reimbursement.reimbStatusId = statusInput;
+                        reimbursement.reimbResolver = currentUser.ersUserId;
+                        addReimbursementToTableSafe(reimbursement);
+                        document.getElementById('past-reimbursement-body').innerText = "";
+                        refreshTable();
+                    } else {
+                        addReimbursementToTableSafe(reimbursement);
+                    }
+
+                });
 
 
             } else {
@@ -116,6 +128,118 @@ function refreshTable() {
 }
 
 
+function filterSelector() {
+
+    if (typeCheck !== document.getElementById('statusFilter').value) {
+
+        typeCheck = document.getElementById('statusFilter').value;
+
+        if (typeCheck === 'All') {
+            filterTable(0);
+
+        } else if (typeCheck === 'Pending') {
+
+            filterTable(1);
+
+        } else if (typeCheck === 'Approved') {
+
+            filterTable(2);
+
+        } else if (typeCheck === 'Denied') {
+
+            filterTable(3);
+
+        }
+
+    }
+
+}
+function filterTable(i) {
+
+
+    let details = {
+
+        reimbStatusId: -1,
+
+    };
+
+
+    details.reimbStatusId = i;
+
+
+    fetch('http://localhost:8080/projectOne/reimbursement', {
+        method: 'GET',
+
+        details: 'include',
+
+
+
+    })
+        .then(resp => JSON.stringify(details))
+        .then(data => {
+            reimbursementsArray = data;
+            console.log(reimbursementsArray);
+            if (1 === 1) {
+
+                document.getElementById('past-reimbursement-body').innerText = "";
+                reimbursementsArray.forEach(reimbursement => {
+                    if (i === 0) {
+
+                        addReimbursementToTableSafe(reimbersement);
+                    } else if (reimbursement.reimbStatusId === i) {
+                        addReimbursementToTableSafe(reimbersement.reimbStatusId);
+                    }
+                });
+
+            } else {
+                document.getElementById('error-message').innterText = "Failed to update";
+            }
+        });
+}
+
+
+
+
+
+
+
+/*
+function filterTable(i) {
+ 
+    document.getElementById('past-reimbursement-body').innerText = "";
+    reimbursementsArray.forEach(reimbersement =>{
+    if (i === 0) {
+         console.log('made it to 0');   
+        addReimbursementToTableSafe(reimbersement);
+        
+    } else 
+        if (reimbursement.reimbStatusId === i) {
+                document.getElementById('past-reimbursement-body').innerText = "";
+                addReimbursementToTableSafe(reimbersement.reimbStatusId);
+           console.log('this is the problem right here');
+            }
+        });
+    }
+*/
+
+function logout(event) {
+    fetch('http://localhost:8080/projectOne/auth/logout', {
+        method: 'DELETE',
+
+        headers: {
+            'content-type': 'application/json'
+        },
+
+        credentials: 'include',
+    })
+        .then(resp => {
+            getCurrentUser();
+        })
+}
+
+
+
+
 
 
 function getCurrentUser() {
@@ -133,3 +257,6 @@ function getCurrentUser() {
 
 }
 getCurrentUser();
+
+
+

@@ -109,7 +109,7 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 	}
 
 	@Override
-	public Reimbursement findByStatusId(int reimbStatusId) {
+	public List<Reimbursement> findByStatusId(int reimbStatusId) {
 		try (Connection c = ConnectionUtil.getConnection()) {
 			/*
 			 * log.debug("attempting to find pokemon by id from DB"); try (Connection c =
@@ -136,11 +136,12 @@ public class ReimbursementDaoSQL implements ReimbursementDao {
 			ps.setInt(1, reimbStatusId);
 
 			ResultSet rs = ps.executeQuery();
-			if (rs.next()) {
-				return extractReimbursement(rs);
-			} else {
-				return null;
-			}
+			List<Reimbursement> reimbList = new ArrayList<Reimbursement>();
+			while (rs.next()) {
+				reimbList.add(extractReimbursement(rs));
+			} 
+				return reimbList;
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
