@@ -1,6 +1,7 @@
 let currentUser;
 let reimbursementsArray;
-
+let reimbursement;
+let typeCheck;
 
 
 
@@ -130,9 +131,9 @@ function refreshTable() {
 
 function filterSelector() {
 
-    if (typeCheck !== document.getElementById('statusFilter').value) {
+    if (typeCheck !== document.getElementById("statusFilter").value) {
 
-        typeCheck = document.getElementById('statusFilter').value;
+        typeCheck = document.getElementById("statusFilter").value;
 
         if (typeCheck === 'All') {
             filterTable(0);
